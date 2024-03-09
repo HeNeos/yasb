@@ -1,5 +1,7 @@
 import subprocess
 import json
+import logging
+from pathlib import Path
 from PyQt6.QtWidgets import QLabel
 from core.widgets.base import BaseWidget
 from core.validation.widgets.yasb.custom import VALIDATION_SCHEMA
@@ -85,10 +87,16 @@ class CustomWidget(BaseWidget):
             proc = subprocess.Popen(self._exec_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, shell=True)
             output = proc.stdout.read()
 
-            if self._exec_return_type == "json":
-                self._exec_data = json.loads(output)
+            if output:
+                if self._exec_return_type == "json":
+                    self._exec_data = json.loads(output)
+                else:
+                    self._exec_data = output.decode('utf-8').strip()
             else:
-                self._exec_data = output.decode('utf-8').strip()
+                logging.warning("Output is empty, taking saved file")
+                file_path = Path.home() / ".yasb" / "weather.json"
+                file = open(file_path)
+                self._exec_data = json.load(file)
 
             self._update_label()
 
