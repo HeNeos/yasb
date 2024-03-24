@@ -97,6 +97,9 @@ class ActiveWindowWidget(BaseWidget):
 
         monitor_name = win_info['monitor_info'].get('device', None)
 
+        # win32 api doesn't return monitor with a friendly name, then
+        # self._monitor_exclusive setted to False
+
         if self._monitor_exclusive and self.screen().name() != monitor_name:
             self._window_title_text.hide()
         else:

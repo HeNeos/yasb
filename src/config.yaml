@@ -365,7 +365,7 @@ widgets:
       label_no_window: ""
       max_length: 40
       max_length_ellipsis: "..."
-      monitor_exclusive: true
+      monitor_exclusive: false
 
   battery:
     type: "yasb.battery.BatteryWidget"
