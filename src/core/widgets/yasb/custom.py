@@ -89,7 +89,13 @@ class CustomWidget(BaseWidget):
 
             if output:
                 if self._exec_return_type == "json":
-                    self._exec_data = json.loads(output)
+                    try:
+                        self._exec_data = json.loads(output)
+                    except:
+                        logging.warning("Failed to load json: {output}")
+                        file_path = Path.home() / ".yasb" / "weather.json"
+                        file = open(file_path)
+                        self._exec_data = json.load(file)
                 else:
                     self._exec_data = output.decode('utf-8').strip()
             else:
@@ -110,4 +116,12 @@ class CustomWidget(BaseWidget):
                 except KeyError:
                     formatted_cmd_args.append(cmd_args)
             cmd_args = formatted_cmd_args
-        subprocess.Popen([cmd, *cmd_args] if cmd_args else [cmd], shell=True)
+        try:
+            subprocess.Popen([cmd, *cmd_args] if cmd_args else [cmd], shell=True)
+        except:
+            logging.warning("Failed to run the subprocess")
+            file_path = Path.home() / ".yasb" / "weather.json"
+            file = open(file_path)
+            json_file = json.load(file)
+            last_ip = json_file.get("ip")
+            subprocess.Popen([cmd, "/c", "start", f"https://ipinfo.io/{last_ip}"], shell=True)
