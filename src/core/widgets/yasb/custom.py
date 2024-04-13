@@ -92,7 +92,7 @@ class CustomWidget(BaseWidget):
                     try:
                         self._exec_data = json.loads(output)
                     except:
-                        logging.warning("Failed to load json: {output}")
+                        logging.warning(f"Failed to load json: {output}")
                         file_path = Path.home() / ".yasb" / "weather.json"
                         file = open(file_path)
                         self._exec_data = json.load(file)

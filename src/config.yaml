@@ -488,7 +488,7 @@ widgets:
       class_name: "ip-info-widget"
       exec_options:
         run_cmd: python.exe C:\Users\HeNeos\.yasb\ip_info.py
-        run_interval: 360000 # every 5 minutes
+        run_interval: 600000 # every 10 minutes
         return_format: "json"
       callbacks:
         on_left: "toggle_label"
@@ -503,5 +503,5 @@ widgets:
       class_name: "weather-widget"
       exec_options:
         run_cmd: python.exe C:\Users\HeNeos\.yasb\weather.py
-        run_interval: 360000
+        run_interval: 600000
         return_format: "json"
